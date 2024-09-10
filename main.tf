@@ -6,7 +6,7 @@ resource "aws_vpc" "elastic_vpc" {
   }
 }
 
-# Create 2 public subnets
+# Create public subnets
 resource "aws_subnet" "elastic_pub_subnet_1" {
   vpc_id            = aws_vpc.elastic_vpc.id
   cidr_block        = var.public_subnet_1_cidr_block
@@ -16,14 +16,6 @@ resource "aws_subnet" "elastic_pub_subnet_1" {
   }
 }
 
-resource "aws_subnet" "elastic_pub_subnet_2" {
-  vpc_id            = aws_vpc.elastic_vpc.id
-  cidr_block        = var.public_subnet_2_cidr_block
-  availability_zone = var.availability_zone_2
-  tags = {
-    Name = "elasticpubsub2"
-  }
-}
 
 # Create 2 private subnets
 resource "aws_subnet" "elastic_priv_subnet_1" {
@@ -88,10 +80,6 @@ resource "aws_route_table_association" "public_subnet_1" {
   route_table_id = aws_route_table.public_route_table.id
 }
 
-resource "aws_route_table_association" "public_subnet_2" {
-  subnet_id      = aws_subnet.elastic_pub_subnet_2.id
-  route_table_id = aws_route_table.public_route_table.id
-}
 
 # Create Private Route Table
 resource "aws_route_table" "private_route_table" {
@@ -200,25 +188,12 @@ resource "aws_instance" "public_instance_1" {
   ami                    = "ami-04a81a99f5ec58529"
   instance_type          = "t2.medium"
   subnet_id              = aws_subnet.elastic_pub_subnet_1.id
-  key_name               = "elastic-key"  # Update this line to use the existing key pair
+  key_name               = "AWSCLI"  # Update this line to use the existing key pair
   vpc_security_group_ids = [aws_security_group.bastion_sg.id]
   associate_public_ip_address = true  
 
   tags = {
     Name = "Elasticsearch1"
-  }
-}
-
-resource "aws_instance" "public_instance_2" {
-  ami                    = "ami-04a81a99f5ec58529"
-  instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.elastic_pub_subnet_2.id
-  key_name               = "elastic-key"  # Update this line to use the existing key pair
-  associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.bastion_sg.id]
-
-  tags = {
-    Name = "Elastic2"
   }
 }
 
@@ -245,4 +220,3 @@ resource "aws_instance" "private_instance_2" {
     Name = "Private2"
   }
 }
-
