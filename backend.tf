@@ -7,7 +7,7 @@ terraform {
   } 
   
   backend "s3" {
-    bucket         	   = "elasticsearch-aayu"
+    bucket         	   = "elasticsearch-Pravesh"
     key              	   = "state/terraform.tfstate"
     region         	   = "us-east-1"
   }
