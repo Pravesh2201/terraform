@@ -16,11 +16,11 @@ variable "public_subnet_1_cidr_block" {
   description = "Public Subnet 1 CIDR Block"
 }
 
-variable "public_subnet_2_cidr_block" {
-  type        = string
-  default     = "10.0.2.0/24"
-  description = "Public Subnet 2 CIDR Block"
-}
+#variable "public_subnet_2_cidr_block" {
+#  type        = string
+#  default     = "10.0.2.0/24"
+#  description = "Public Subnet 2 CIDR Block"
+#}
 
 variable "private_subnet_1_cidr_block" {
   type        = string
